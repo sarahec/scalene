@@ -11,8 +11,8 @@ CXXFLAGS = -std=c++14 -Wall -g -O3 -DNDEBUG -D_REENTRANT=1 -DHL_USE_XXREALLOC=1 
 # CXX = g++
 
 INCLUDES  = -Isrc -Isrc/include
-INCLUDES := $(INCLUDES) -Ivendor/Heap-Layers -Ivendor/Heap-Layers/wrappers -Ivendor/Heap-Layers/utility
-INCLUDES := $(INCLUDES) -Ivendor/printf
+INCLUDES := $(INCLUDES) -IHeap-Layers -IHeap-Layers/wrappers -IHeap-Layers/utility
+INCLUDES := $(INCLUDES) -Ivprintf
 # python3-config may not be available in venv and such
 INCLUDES := $(INCLUDES) -I$(shell python3 -c "import sysconfig; print(sysconfig.get_path('include'))")
 
@@ -37,7 +37,7 @@ else # non-Darwin
 
 endif
 
-SRC := src/source/lib$(LIBNAME).cpp $(WRAPPER) vendor/printf/printf.cpp
+SRC := src/source/lib$(LIBNAME).cpp $(WRAPPER) printf/printf.cpp
 
 OUTDIR=scalene
 
@@ -65,7 +65,7 @@ vendor/printf/printf.cpp:
 	sed -e 's/^#define printf printf_/\/\/&/' vendor/printf/printf.h > $(TMP)/printf.h.$$ && mv $(TMP)/printf.h.$$ vendor/printf/printf.h
 	sed -e 's/^#define vsnprintf vsnprintf_/\/\/&/' vendor/printf/printf.h > $(TMP)/printf.h.$$ && mv $(TMP)/printf.h.$$ vendor/printf/printf.h
 
-vendor-deps: vendor/Heap-Layers vendor/printf/printf.cpp
+vendor-deps: ; # vendor/Heap-Layers vendor/printf/printf.cpp
 
 mypy:
 	-mypy --no-warn-unused-ignores $(PYTHON_SOURCES)
