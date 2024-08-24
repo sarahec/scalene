@@ -44,7 +44,7 @@ clear-vendor-dirs:
 	if exist vendor\ (rmdir /Q /S vendor)
 	mkdir vendor
 
-pkg: vendor/Heap-Layers vendor/printf/printf.cpp
+pkg:
 	-rm -rf dist build *egg-info
 	$(PYTHON) setup.py sdist bdist_wheel
 
