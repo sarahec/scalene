@@ -7,12 +7,12 @@ CXXFLAGS = /Ox /DNDEBUG /std:c++14 /Zi
 CXX = cl
 
 MAIN_INCLUDES  = -Isrc -Isrc/include
-INCLUDES = $(MAIN_INCLUDES) -Ivendor/Heap-Layers -Ivendor/Heap-Layers/wrappers -Ivendor/Heap-Layers/utility -Ivendor/printf
+INCLUDES = $(MAIN_INCLUDES) -IHeap-Layers -IHeap-Layers/wrappers -IHeap-Layers/utility -Iprintf
 
 LIBFILE = lib$(LIBNAME).dll
-WRAPPER = # vendor/Heap-Layers/wrappers/gnuwrapper.cpp
+WRAPPER = # Heap-Layers/wrappers/gnuwrapper.cpp
 
-SRC = src/source/lib$(LIBNAME).cpp $(WRAPPER) vendor/printf/printf.cpp
+SRC = src/source/lib$(LIBNAME).cpp $(WRAPPER) printf/printf.cpp
 
 all:  # vendor-deps $(SRC) $(OTHER_DEPS)
 # $(CXX) $(CXXFLAGS) $(INCLUDES) $(SRC) /o $(LIBFILE)
@@ -31,20 +31,19 @@ isort:
 black:
 	-black -l 79 $(PYTHON_SOURCES)
 
-vendor/Heap-Layers:
-	cd vendor && git clone https://github.com/emeryberger/Heap-Layers
+Heap-Layers: ;
+#	cd vendor && git clone https://github.com/emeryberger/Heap-Layers
 
-vendor/printf/printf.cpp:
-	cd vendor && git clone https://github.com/mpaland/printf
-	cd vendor\printf && copy printf.c printf.cpp
+printf/printf.cpp:
+	copy printf/printf.c ptrintf/printf.cpp
 
-vendor-deps: clear-vendor-dirs vendor/Heap-Layers vendor/printf/printf.cpp
+vendor-deps: clear-vendor-dirs Heap-Layers printf/printf.cpp
 
 clear-vendor-dirs:
 	if exist vendor\ (rmdir /Q /S vendor)
 	mkdir vendor
 
-pkg: vendor/Heap-Layers vendor/printf/printf.cpp
+pkg: Heap-Layers printf/printf.cpp
 	-rm -rf dist build *egg-info
 	$(PYTHON) setup.py sdist bdist_wheel
 
