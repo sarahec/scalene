@@ -31,18 +31,13 @@ isort:
 black:
 	-black -l 79 $(PYTHON_SOURCES)
 
-vendor/Heap-Layers:
-	cd vendor && git clone https://github.com/emeryberger/Heap-Layers
+vendor/Heap-Layers: ;
 
-vendor/printf/printf.cpp:
-	cd vendor && git clone https://github.com/mpaland/printf
-	cd vendor\printf && copy printf.c printf.cpp
+vendor/printf/printf.cpp: ;
 
 vendor-deps: clear-vendor-dirs vendor/Heap-Layers vendor/printf/printf.cpp
 
-clear-vendor-dirs:
-	if exist vendor\ (rmdir /Q /S vendor)
-	mkdir vendor
+clear-vendor-dirs: ;
 
 pkg: vendor/Heap-Layers vendor/printf/printf.cpp
 	-rm -rf dist build *egg-info
