@@ -65,13 +65,13 @@ def read_file(name):
     with open(path.join(path.dirname(__file__), name), encoding="utf-8") as f:
         return f.read()
 
-import setuptools.command.egg_info
-class EggInfoCommand(setuptools.command.egg_info.egg_info):
-    """Custom command to download vendor libs before creating the egg_info."""
-    def run(self):
-        if sys.platform != 'win32':
-            self.spawn([make_command(), 'vendor-deps'])
-        super().run()
+# import setuptools.command.egg_info
+# class EggInfoCommand(setuptools.command.egg_info.egg_info):
+#     """Custom command to download vendor libs before creating the egg_info."""
+#     def run(self):
+#         if sys.platform != 'win32':
+#             self.spawn([make_command(), 'vendor-deps'])
+#         super().run()
 
 # Force building platform-specific wheel to avoid the Windows wheel
 # (which doesn't include libscalene, and thus would be considered "pure")
